@@ -1,0 +1,41 @@
+<!-- templates/index.html -->
+{% extends "base.html" %}
+
+{% block title %}Welcome to Job Portal{% endblock %}
+
+{% block content %}
+<div class="hero-section text-center p-5 mb-5">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-3">Find Your Dream Job</h1>
+        <p class="lead mb-4">Discover thousands of job opportunities from top companies around the world.</p>
+        <a href="{{ url_for('jobs') }}" class="btn btn-primary btn-lg px-4">Browse All Jobs</a>
+        {% if not current_user.is_authenticated %}
+            <a href="{{ url_for('register') }}" class="btn btn-outline-primary btn-lg ms-md-3 px-4 mt-2 mt-md-0">Join Us Today</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card p-4 text-center h-100">
+            <i class="bi bi-search display-4 text-primary mb-3"></i>
+            <h4 class="card-title">Search Jobs</h4>
+            <p class="card-text">Explore a wide range of job listings tailored to your skills and preferences.</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card p-4 text-center h-100">
+            <i class="bi bi-file-earmark-person display-4 text-primary mb-3"></i>
+            <h4 class="card-title">Apply Easily</h4>
+            <p class="card-text">Apply to jobs with a simple and quick application process.</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card p-4 text-center h-100">
+            <i class="bi bi-building display-4 text-primary mb-3"></i>
+            <h4 class="card-title">Hire Talent</h4>
+            <p class="card-text">Employers can post job openings to attract top talent effortlessly.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

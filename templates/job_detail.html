@@ -1,0 +1,52 @@
+<!-- templates/job_detail.html -->
+{% extends "base.html" %}
+
+{% block title %}{{ job.title }} at {{ job.company }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h2 class="card-title">{{ job.title }}</h2>
+                <h5 class="card-subtitle mb-3 text-muted">{{ job.company }}</h5>
+                <p class="text-muted"><i class="bi bi-geo-alt-fill me-2"></i> {{ job.location }}</p>
+                {% if job.salary %}
+                    <p class="text-success fw-bold"><i class="bi bi-cash me-2"></i>{{ job.salary }}</p>
+                {% endif %}
+
+                <hr>
+                
+                <h4 class="mt-4">Job Description</h4>
+                <p class="card-text">{{ job.description }}</p>
+
+                <hr class="mt-4">
+
+                {% if current_user.is_authenticated and current_user.role == 'job_seeker' %}
+                    {% if has_applied %}
+                        <div class="alert alert-info text-center" role="alert">
+                            You have already applied for this job.
+                        </div>
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary w-100">Go to Dashboard</a>
+                    {% else %}
+                        <form action="{{ url_for('apply_job', job_id=job.id) }}" method="post" enctype="multipart/form-data">
+                            <h5 class="mb-3">Apply for this Job</h5>
+                            <div class="mb-3">
+                                <label for="resume" class="form-label">Upload Resume (PDF, DOC, DOCX)</label>
+                                <input type="file" class="form-control" id="resume" name="resume" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg w-100">Submit Application</button>
+                        </form>
+                    {% endif %}
+                {% elif current_user.is_authenticated and current_user.role == 'employer' %}
+                    <div class="alert alert-info text-center" role="alert">
+                        You are logged in as an Employer. You can't apply for jobs.
+                    </div>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg w-100">Login to Apply</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

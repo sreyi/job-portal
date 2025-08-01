@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}{% if job %}Edit Job: {{ job.title }}{% else %}Post a New Job{% endif %}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card p-4">
+            <h2 class="card-title mb-4">{% if job %}Edit Job: {{ job.title }}{% else %}Post a New Job{% endif %}</h2>
+            <form action="{% if job %}{{ url_for('edit_job', job_id=job.id) }}{% else %}{{ url_for('job_form') }}{% endif %}" method="post">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Job Title</label>
+                    <input type="text" class="form-control" id="title" name="title" value="{{ job.title if job else '' }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="company" class="form-label">Company</label>
+                    <input type="text" class="form-control" id="company" name="company" value="{{ job.company if job else '' }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" class="form-control" id="location" name="location" value="{{ job.location if job else '' }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="salary" class="form-label">Salary (Optional)</label>
+                    <input type="text" class="form-control" id="salary" name="salary" value="{{ job.salary if job else '' }}">
+                </div>
+                <div class="mb-4">
+                    <label for="description" class="form-label">Job Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="8" required>{{ job.description if job else '' }}</textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg w-100">{% if job %}Update Job{% else %}Post Job{% endif %}</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
